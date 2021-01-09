@@ -1,0 +1,77 @@
+<!--
+/*
+ * License:  see License.txt
+ * Code for TB 78 or later: Creative Commons (CC BY-ND 4.0):
+ *      Attribution-NoDerivatives 4.0 International (CC BY-ND 4.0) 
+ 
+ * Contributors:  see Changes.txt
+ */
+
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Imageview</title>
+  <link rel="stylesheet" href="./imgviewer/ext/bootstrap.min.css">
+  <link rel="stylesheet" href="./imgviewer/css/viewer.css">
+  <style>
+    .pictures {
+      list-style: none;
+      margin: 0;
+      max-width: 30rem;
+      padding: 0;
+    }
+
+    .pictures > li {
+      border: 1px solid transparent;
+      float: left;
+      height: calc(100% / 3);
+      margin: 0 -1px -1px 0;
+      overflow: hidden;
+      width: calc(100% / 3);
+    }
+
+    .pictures > li > img {
+      cursor: zoom-in;
+      width: 100%;
+    }
+
+
+
+    .viewer-download {
+      color: #fff;
+      font-family: FontAwesome, serif;
+      font-size: 0.75rem;
+      line-height: 1.5rem;
+      text-align: center;
+    }
+
+    .viewer-download::before {
+      content: "\f019";
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div id="galley"  hidden = "true">
+      <ul id = "imgList" class="pictures"> </ul>
+    </div>
+  </div>
+
+  <script src="./imgviewer/ext/jquery-3.5.1.slim.min.js" ></script>
+  <script src="./imgviewer/ext/bootstrap.bundle.min.js" ></script>
+  <script src="./imgviewer/js/viewer.js"></script>
+  <script  src = "imgview.js">
+  </script>
+</body>
+</html>
