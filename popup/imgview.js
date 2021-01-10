@@ -5,103 +5,41 @@
  
  * Contributors:  see Changes.txt
  */
+var messageId = null;
 
-var  doc_stored = document;
+window.addEventListener('DOMContentLoaded', async function () {
+  var galley = document.getElementById('galley');
+  let imgList = document.getElementById('imgList');
+  var fragment = new DocumentFragment();
 
-window.addEventListener('DOMContentLoaded', function () {
-    var galley = document.getElementById('galley');
-    let imgList = document.getElementById('imgList');
-   	var bPage = messenger.extension.getBackgroundPage();
-    var fragment = new DocumentFragment();
-    //debugger;
-    //var a1 = document.createElement('a');
-
-   for (i=0; i< bPage.no_img ;i++) {
-      var li = document.createElement('li')
-      var imgNew = document.createElement('img')
-      imgNew.src =  "data:image/jpeg;base64,"+ btoa(bPage.imageCode[i]);
-      imgNew.setAttribute("alt", bPage.imgNames[i]);
-      li.appendChild(imgNew);
-      fragment.appendChild(li);
-    };
-    imgList.appendChild(fragment);
-    
- 
-    messenger.runtime.sendMessage({msg:"close loading"}).catch();   
+  // Get the messageId via URL search params
+  const queryString  = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  messageId = urlParams.get('messageId')
   
-    var viewer = new Viewer(galley, {
-      url: 'src',
-      button: false, //no closing x
-      title: true,
-      interval: 4000,
-      backdrop: "static", // don't close on click
- /*     toolbar: {
-        zoomIn: 1,
-        zoomOut: 1,
-        oneToOne: 1,
-        reset: 1,
-        prev: 1,
-        play: {
-          show: 1,
-          size: 'large',
-        },
-        next: 1,
-        rotateLeft: 1,
-        rotateRight: 1,
-        flipHorizontal: 1,
-        flipVertical: 1,
-        download: function() {
-          console.log("download");
-         debugger;
-          let a = doc_stored.createElement('a');
+  // As our API does not get the attachment per message, but per window,
+  // we store the attachmentg data in the the backgroud page and use message
+  // service to get it here. Once the API can get the attachment data per message,
+  // we can just call it here
+  let attachmentData = await messenger.runtime.sendMessage({msg: "getAttachmentData", messageId: messageId});
 
-          a.href = viewer.image.src;
-          a.download = viewer.image.alt;
-          doc_stored.body.appendChild(a);
-          a.click();
-          doc_stored.body.removeChild(a);
-          console.log("download done");
-      }
-      },      
-   */  // download jquery click not working 
-      //function (image) {
-      //  return image.alt + ' (' + (this.index + 1) + '/' + this.length + ')';
-      //},
- /*     toolbar: {
-        oneToOne: true,
+  for (let data of attachmentData) {
+    var li = document.createElement('li')
+    var imgNew = document.createElement('img')
+    imgNew.src =  "data:image/jpeg;base64,"+ btoa(data.imageData);
+    imgNew.setAttribute("alt", data.filename);
+    li.appendChild(imgNew);
+    fragment.appendChild(li);
+  };
+  imgList.appendChild(fragment);
 
-        prev: function() {
-          viewer.prev(true);
-        },
-
-        play: true,
-
-        next: function() {
-          viewer.next(true);
-        },
-
-        download: function() {
-          const a = document.createElement('a');
-
-          a.href = viewer.image.src;
-          a.download = viewer.image.alt;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        },
-      }
-*/
-    });
-    viewer.show();
+  var viewer = new Viewer(galley, {
+    url: 'src',
+    button: false, //no closing x
+    title: true,
+    interval: 4000,
+    backdrop: "static", // don't close on click
   });
-
-
-  window.addEventListener('unload', function () {
-  	var bPage = messenger.extension.getBackgroundPage();
-    for (i=0; i< bPage.no_img ;i++) {
-     bPage.imageCode[i]= "";
-     bPage.imgNames[i]= "";
-     bPage.imageReady[i]= false;
-    };
- });
+  viewer.show();
+});
  

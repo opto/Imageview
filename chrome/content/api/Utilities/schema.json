@@ -15,8 +15,6 @@
         ]
       },
 
- 
-
       {
         "name": "showXhtmlPage",
         "type": "function",
@@ -26,40 +24,32 @@
             "type": "string",
             "description": "url to open in browser"
           }
-
-
         ]
       },
 
-
       {
-        "name": "attachmentHasImages",
+        "name": "attachmentGetImages",
         "type": "function",
         "async": true,
-        "parameters": []
-      },
-
-      {
-        "name": "getImage",
-        "type": "function",
-        "async": true,
-        "parameters": []
-      },
-
-
-
-      {
-        "name": "openLinkExternally",
-        "type": "function",
-        "async": true,
-               "parameters": [
+        "parameters": [
           {
-            "name": "url",
-            "type": "string",
-            "description": "url to open in browser"
-          }
- 
-
+            "name": "windowId",
+            "type": "integer",
+            "description": "Id of the window to check for a attachment list."
+          },
+          {
+            "id": "getInfo",
+            "type": "object",
+            "optional": true,
+            "description": "Specifies filters and options for the returned images",
+            "properties": {
+              "populate": {
+                "type": "boolean",
+                "optional": true,
+                "description": "If true, the returned AttachmentInfo will include a Promise for the image data."
+              }
+            }
+          }          
         ]
       }
 
