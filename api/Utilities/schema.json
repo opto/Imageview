@@ -1,0 +1,34 @@
+[
+  {
+    "namespace": "Utilities",
+    "functions": [ 
+
+      {
+        "name": "attachmentGetImages",
+        "type": "function",
+        "async": true,
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "description": "Id of the window to check for a attachment list."
+          },
+          {
+            "id": "getInfo",
+            "type": "object",
+            "optional": true,
+            "description": "Specifies filters and options for the returned images",
+            "properties": {
+              "populate": {
+                "type": "boolean",
+                "optional": true,
+                "description": "If true, the returned AttachmentInfo will include a Promise for the image data."
+              }
+            }
+          }          
+        ]
+      }
+
+   ]
+  }
+]

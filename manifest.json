@@ -1,59 +1,43 @@
 {
-	"manifest_version": 2,
-	"name": "Image Viewer/Slideshow",
+    "manifest_version": 2,
+    "name": "Image Viewer/Slideshow",
     "description": "Viewing images in attachments as full size or thumbnail",
-	"version": "1.2.3",
-	"author": "opto (Klaus Buecher)",
-	"developer": {
-		"name": "opto (Klaus Buecher)"
-	},
+    "version": "1.2.3",
+    "author": "opto (Klaus Buecher)",
+    "developer": {
+        "name": "opto (Klaus Buecher)"
+    },
  
-	"permissions": ["activeTab", "tabs", "messagesRead", "storage"],
-	
-	
-	"applications": {
-		"gecko": {
-			"id": "immageview@opto.one",
-			"strict_min_version": "78.0"
-		}
-	},
-	"background": {
-		"scripts": ["im-background.js"]
-	  },
+    "permissions": [
+        "messagesRead",
+        "storage"
+    ],
+    
+    "applications": {
+        "gecko": {
+            "id": "immageview@opto.one",
+            "strict_min_version": "78.6"
+        }
+    },
+    
+    "background": {
+        "scripts": ["im-background.js"]
+    },
 
-	"message_display_action": {
-		"default_title": "Imgview"
+    "message_display_action": {
+        "default_title": "Imgview"
 
-	},
+    },
 
-	  "experiment_apis": {
-		"WindowListener": {
-		  "schema": "chrome/content/api/WindowListener/schema.json",
-		  "parent": {
-			"scopes": ["addon_parent"],
-			"paths": [["WindowListener"]],
-			"script": "chrome/content/api/WindowListener/implementation.js"
-		  }
-		},  
-		"LegacyPrefs": {
-		  "schema": "chrome/content/api/LegacyPrefs/schema.json",
-		  "parent": {
-			"scopes": ["addon_parent"],
-			"paths": [["LegacyPrefs"]],
-			"script": "chrome/content/api/LegacyPrefs/implementation.js"
-		  
-		  }
-		},
-		"Utilities": {
-		  "schema": "chrome/content/api/Utilities/schema.json",
-		  "parent": {
-			"scopes": ["addon_parent"],
-			"paths": [["Utilities"]],
-			"script": "chrome/content/api/Utilities/implementation.js"
-		  
-		   }
-		}
-		  }
-
+    "experiment_apis": {
+        "Utilities": {
+            "schema": "api/Utilities/schema.json",
+            "parent": {
+                "scopes": ["addon_parent"],
+                "paths": [["Utilities"]],
+                "script": "api/Utilities/implementation.js"
+            }
+        }
+    }
 }
                                                                                                                                                         

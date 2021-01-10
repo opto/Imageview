@@ -6,18 +6,15 @@
  * Contributors:  see Changes.txt
  */
 
-
-
 addEventListener("click", async (event) => {
-	if (event.target.id.startsWith("donate")) {
-
-	  messenger.Utilities.openLinkExternally("https://www.paypal.com/donate?hosted_button_id=7UTQDJGFQRMTW");
-	}
+  if (event.target.id.startsWith("donate")) {
+    messenger.windows.openDefaultBrowser("https://www.paypal.com/donate?hosted_button_id=7UTQDJGFQRMTW");
+  }
 });  
 
 addEventListener("load", async (event) => {
-	//debugger;
-	let text = document.body.innerHTML;
+  //debugger;
+  let text = document.body.innerHTML;
   htmltext = text.replace(/{addon}/g, await browser.runtime.getManifest().name );
   htmltext2 = htmltext.replace(/{version}/g, await browser.runtime.getManifest().version);
   let browserInfo = await browser.runtime.getBrowserInfo()
