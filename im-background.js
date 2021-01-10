@@ -65,7 +65,7 @@ messenger.messageDisplayAction.onClicked.addListener(async (tab, info) => {
   let popupHeight = parseInt(  0.92*mainWnd.height);
   
   // The popup window should be bound to the message (and its attachments) and not to the
-  //  current main window. Using the windowId as reference information seems wrong, we need
+  // current main window. Using the windowId as reference information seems wrong, we need
   // to connect the popup with the message directly and allow the popup to get the attachments
   // from the provided message.
   messenger.windows.create({
