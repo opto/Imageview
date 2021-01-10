@@ -66,7 +66,7 @@ messenger.messageDisplayAction.onClicked.addListener(async (tab, info) => {
   
   // This window should be bound to the message (and its attachments) and not to the window, 
   // using the windowId as reference information seems wrong, we need to connect the popup 
-  // with the attachmentData directly
+  // with message directly and allow the popup to get the attachments from the provided message.
   messenger.windows.create({
     allowScriptsToClose: true, 
     url: `./popup/imgview.html?messageId=${message.id}`,
