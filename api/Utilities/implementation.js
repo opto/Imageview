@@ -59,10 +59,6 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
 
     return {
       Utilities: {
-
-        logDebug (text) {
-          console.log(text);
-        },
         
         async attachmentGetImages (windowId, getInfo = {}) {
           let populate = getInfo?.populate || false;
@@ -99,15 +95,7 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
 
           };
           return rv;
-        },
-        
-        showXhtmlPage: function(uri) {
-          let mail3PaneWindow = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-            .getService(Components.interfaces.nsIWindowMediator)
-            .getMostRecentWindow("mail:3pane");  
-          mail3PaneWindow.openDialog(uri);
-        }
-  
+        }  
 
      }
   }
