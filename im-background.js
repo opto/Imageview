@@ -48,6 +48,9 @@ messenger.messageDisplay.onMessageDisplayed.addListener( async (tab, message) =>
 });
 
 messenger.messageDisplayAction.onClicked.addListener(async (tab, info) => {  
+  // show a loading screen, while we wait fort the images to be loaded
+  let loadingScreen = await messenger.windows.create({url: "./popup/loading.html", titlePreface: "ImageViewer: ", height: 120,  width: 340,  type: "popup"});
+  
   let data = await messenger.Utilities.attachmentGetImages(tab.windowId, {populate: true});
   if (data.length == 0) {
     messenger.messageDisplayAction.disable(tab.tabID);
@@ -63,6 +66,9 @@ messenger.messageDisplayAction.onClicked.addListener(async (tab, info) => {
   let mainWnd = await messenger.windows.getLastFocused();
   let popupWidth = parseInt( 0.89 * mainWnd.width);
   let popupHeight = parseInt(  0.92*mainWnd.height);
+  
+  // remove loading screen
+  messenger.windows.remove(loadingScreen.id);
   
   // The popup window should be bound to the message (and its attachments) and not to the
   // current main window. Using the windowId as reference information seems wrong, we need
