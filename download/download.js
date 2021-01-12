@@ -12,7 +12,7 @@ async function isEnabled(addonId) {
 }
 
 window.addEventListener('DOMContentLoaded', async function () {
-  // do not load or show previews of nostalgy is enabled
+  // do not load or show previews if nostalgy is enabled
   if (await isEnabled("nostalgy@opto.one")) {
     return;
   }
