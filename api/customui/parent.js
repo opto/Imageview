@@ -292,7 +292,7 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
         return handler;
       }
 
-      // Legacy ---------------------------------------------------------
+      // Legacy ---------------------------------------------------------------
       locationHandlers.legacy = makeLocationHandler({
         async injectIntoWindow(window, url, options) {
           for (let field of ["windowUrl", "glueScript"]) {
@@ -340,7 +340,7 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
         }
       });
 
-      // Unknown Download Location---------------------------------------------
+      // Unknown Download Location --------------------------------------------
       locationHandlers.unknown_download_location = makeLocationHandler({
         injectIntoWindow(window, url, options) {
           if (window.location.toString()
