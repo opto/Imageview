@@ -340,6 +340,38 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
         }
       });
 
+      // Unknown Download Location---------------------------------------------
+      locationHandlers.unknown_download_location = makeLocationHandler({
+        injectIntoWindow(window, url, options) {
+          if (window.location.toString()
+              !== "chrome://mozapps/content/downloads/unknownContentType.xhtml") {
+            return; // incompatible window
+          }
+          
+          let data = {
+            // the url from the dialog
+            url: window.dialog.mLauncher.source.spec,
+          };
+          
+          // just the query, for example "part=1.2&type=image/jpeg&filename=IMG_0101.jpg"
+          const query = window.dialog.mLauncher.source.query;
+          for (const part of query.split("&")) {
+            const [key,value] = part.split("=");
+            data[key] = decodeURIComponent(value);
+          }
+
+          const container = window.document.getElementById("container");
+          const frame = insertWebextFrame("unknown_download_location", url, container);
+          setWebextFrameSizesForVerticalBox(frame, options);
+          for (const [key, value] of Object.entries(data)) {
+            frame.setCustomUIContextProperty(key, value);
+          }
+        },
+        uninjectFromWindow(window, url) {
+          removeWebextFrame("addressbook", url, window.document);
+        }
+      });
+
       // Address Book ---------------------------------------------------------
       locationHandlers.addressbook = makeLocationHandler({
         injectIntoWindow(window, url, options) {

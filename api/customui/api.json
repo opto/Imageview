@@ -120,6 +120,10 @@
         "value": "legacy",
         "description": "String identifying a multipurpose location, allowing to add the iframe to the window specified in options.config.windowUrl."
       },
+      "UNKNOWN_DOWNLOAD_LOCATION": {
+        "value": "unknown_download_location",
+        "description": "String identifying an area visible at the bottom of unknown download location dialog, which is opened when an attachment is downloaded."
+      },
       "LOCATION_ADDRESSBOOK": {
         "value": "addressbook",
         "description": "String identifying an area permanently visible alongside address book features of Thunderbird (currently in the address book window, below the list of address books)"

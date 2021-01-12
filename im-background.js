@@ -114,21 +114,12 @@ messenger.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 // DOWNLOAD PREVIEW
 // ----------------
-// Register a webExtension iframe inside the unknow location dialog. We could
-// extend the customUI API by a dedicated LOCATION_UNKNOWN_CONTENT_TYPE and
-// define the needed legacy glue in the API directly, but since it is so little,
-// we use the generic LOCATION_LEGACY and provide the legacy glue manually.
+// Register a webExtension iframe inside the unknow location dialog.
 messenger.ex_customui.add(
-    messenger.ex_customui.LOCATION_LEGACY,
+    messenger.ex_customui.UNKNOWN_DOWNLOAD_LOCATION,
     "download/download.html",
     {
       height: 150,
       hidden: true, //default to hidden and only show if the content-type is an image
-      config: {
-        windowUrl: "chrome://mozapps/content/downloads/unknownContentType.xhtml",
-        glueScript: "download/download-legacy-glue.js",
-        referenceElement: "container",
-      }
     }
   );
-    
