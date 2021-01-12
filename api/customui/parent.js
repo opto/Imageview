@@ -1,5 +1,3 @@
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
-
 var ex_customui = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     const Cc = Components.classes;
