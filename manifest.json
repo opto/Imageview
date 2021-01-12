@@ -10,7 +10,8 @@
  
     "permissions": [
         "messagesRead",
-        "storage"
+        "storage",
+        "management"
     ],
     
     "applications": {
