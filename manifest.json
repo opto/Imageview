@@ -37,7 +37,20 @@
                 "paths": [["Utilities"]],
                 "script": "api/Utilities/implementation.js"
             }
-        }
+        },
+        "ex_customui": {
+          "schema": "api/customui/api.json",
+          "parent": {
+            "scopes": ["addon_parent"],
+            "paths": [["ex_customui"]],
+            "script": "api/customui/parent.js"
+          },
+          "child": {
+            "scopes": ["addon_child"],
+            "paths": [["ex_customui"]],
+            "script": "api/customui/child.js"
+          }
+        }        
     }
 }
                                                                                                                                                         

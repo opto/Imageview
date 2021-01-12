@@ -11,6 +11,11 @@
 // from the message directly.
 var attachmentData = {};
 
+
+
+// INSTALL/UPPDATE POPUPS
+// ----------------------
+
 // Register listener for info popups on install/update.
 messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
   if (temporary) {
@@ -35,11 +40,16 @@ messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
   }
 });
 
+
+
+// IMAGE VIEWER LOGIC
+// ------------------
+
 // Activate/Deativate our button depending on included images.
 messenger.messageDisplay.onMessageDisplayed.addListener( async (tab, message) => {
   // console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
   
-  let data = await messenger.Utilities.attachmentGetImages(tab.windowId);
+  let data = await messenger.Utilities.attachmentGetImagesInfo(tab.windowId);
   if (data.length == 0) {
     messenger.messageDisplayAction.disable(tab.tabID);
   } else {
@@ -48,21 +58,26 @@ messenger.messageDisplay.onMessageDisplayed.addListener( async (tab, message) =>
 });
 
 messenger.messageDisplayAction.onClicked.addListener(async (tab, info) => {  
-  // show a loading screen, while we wait fort the images to be loaded
-  let loadingScreen = await messenger.windows.create({url: "./popup/loading.html", titlePreface: "ImageViewer: ", height: 120,  width: 340,  type: "popup"});
-  
-  let data = await messenger.Utilities.attachmentGetImages(tab.windowId, {populate: true});
+  let data = await messenger.Utilities.attachmentGetImagesInfo(tab.windowId);
   if (data.length == 0) {
     messenger.messageDisplayAction.disable(tab.tabID);
     return;
+  }
+
+  // Show a loading screen, while we wait for the images to be loaded.
+  // TODO: Since we know how many images have to be loaded, we could
+  //  add a progress bar or load the images dynamically in the viewer.
+  let loadingScreen = await messenger.windows.create({url: "./popup/loading.html", titlePreface: "ImageViewer: ", height: 120,  width: 340,  type: "popup"});
+  for (let i = 0; i < data.length; i++) {
+    data[i].imageData = await messenger.Utilities.attachmentGetImageData(data[i].url);
   }
   
   // Get displayed message and store the attachment data of this message.
   let message = await messenger.messageDisplay.getDisplayedMessage(tab.id);
   // store the attachment Data in the background page, per message
   attachmentData[message.id] = data;
-  
-  // Get dimensions from main window to calculate matching size of image viewer popup.
+
+    // Get dimensions from main window to calculate matching size of image viewer popup.
   let mainWnd = await messenger.windows.getLastFocused();
   let popupWidth = parseInt( 0.89 * mainWnd.width);
   let popupHeight = parseInt(  0.92*mainWnd.height);
@@ -95,17 +110,25 @@ messenger.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 
-/*
-async function main() {
-  messenger.WindowListener.registerDefaultPrefs("chrome/content/scripts/im-defaults.js");
-  messenger.WindowListener.registerChromeUrl([ 
-    ["content", "imageview", "chrome/content/"],
-     ]);
 
-  messenger.WindowListener.registerWindow("chrome://messenger/content/messenger.xhtml", "chrome/content/scripts/im-messenger.js");
-  messenger.WindowListener.registerWindow("chrome://mozapps/content/downloads/unknownContentType.xhtml", "chrome/content/scripts/im-download.js");
-  messenger.WindowListener.startListening();
-}
 
-main();
-*/
+// DOWNLOAD PREVIEW
+// ----------------
+// Register a webExtension iframe inside the unknow location dialog. We could
+// extend the customUI API by a dedicated LOCATION_UNKNOWN_CONTENT_TYPE and
+// define the needed legacy glue in the API directly, but since it is so little,
+// we use the generic LOCATION_LEGACY and provide the legacy glue manually.
+messenger.ex_customui.add(
+    messenger.ex_customui.LOCATION_LEGACY,
+    "download/download.html",
+    {
+      height: 150,
+      hidden: true, //default to hidden and only show if the content-type is an image
+      config: {
+        windowUrl: "chrome://mozapps/content/downloads/unknownContentType.xhtml",
+        glueScript: "download/download-legacy-glue.js",
+        referenceElement: "container",
+      }
+    }
+  );
+    
