@@ -342,8 +342,8 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
         }
       });
 
-      // Unknown Download Location --------------------------------------------
-      locationHandlers.unknown_download_location = makeLocationHandler({
+      // unknown_file_action --------------------------------------------------
+      locationHandlers.unknown_file_action = makeLocationHandler({
         injectIntoWindow(window, url, options) {
           if (window.location.toString()
               !== "chrome://mozapps/content/downloads/unknownContentType.xhtml") {
@@ -363,14 +363,14 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
           }
 
           const container = window.document.getElementById("container");
-          const frame = insertWebextFrame("unknown_download_location", url, container);
+          const frame = insertWebextFrame("unknown_file_action", url, container);
           setWebextFrameSizesForVerticalBox(frame, options);
           for (const [key, value] of Object.entries(data)) {
             frame.setCustomUIContextProperty(key, value);
           }
         },
         uninjectFromWindow(window, url) {
-          removeWebextFrame("unknown_download_location", url, window.document);
+          removeWebextFrame("unknown_file_action", url, window.document);
         }
       });
 

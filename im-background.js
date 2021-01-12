@@ -114,9 +114,9 @@ messenger.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 // DOWNLOAD PREVIEW
 // ----------------
-// Register a webExtension iframe inside the unknow location dialog.
+// Register a webExtension iframe inside the unknow file action dialog.
 messenger.ex_customui.add(
-    messenger.ex_customui.UNKNOWN_DOWNLOAD_LOCATION,
+    messenger.ex_customui.LOCATION_UNKNOWN_FILE_ACTION,
     "download/download.html",
     {
       height: 150,
