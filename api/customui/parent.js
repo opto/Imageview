@@ -368,7 +368,7 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
           }
         },
         uninjectFromWindow(window, url) {
-          removeWebextFrame("addressbook", url, window.document);
+          removeWebextFrame("unknown_download_location", url, window.document);
         }
       });
 
