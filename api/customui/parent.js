@@ -301,7 +301,7 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
           }
           
           let data = {
-            // the url from the dialog
+            // the url of the file
             url: window.dialog.mLauncher.source.spec,
           };
           
@@ -316,7 +316,9 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
           const frame = insertWebextFrame("unknown_file_action", url, container);
           setWebextFrameSizesForVerticalBox(frame, options);
           for (const [key, value] of Object.entries(data)) {
-            frame.setCustomUIContextProperty(key, value);
+            if (["filename","type"].includes(key)) {
+              frame.setCustomUIContextProperty(key, value);
+            }
           }
         },
         uninjectFromWindow(window, url) {
