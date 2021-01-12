@@ -22,12 +22,6 @@
             "type": "boolean",
             "optional": "true",
             "description": "If set to true, the custom UI component will not be visible (and thus not take up any screen space). This field is useful to selectively show or hide a component using local options."
-          },
-          "config": {
-            "type": "object",
-            "optional": "true",
-            "description": "Additional config properties for the location.",
-            "additionalProperties" :true            
           }
         }
       }
@@ -116,10 +110,6 @@
       }
     ],
     "properties": {
-      "LOCATION_LEGACY": {
-        "value": "legacy",
-        "description": "String identifying a multipurpose location, allowing to add the iframe to the window specified in options.config.windowUrl."
-      },
       "LOCATION_UNKNOWN_FILE_ACTION": {
         "value": "unknown_file_action",
         "description": "String identifying an area visible at the bottom of the unknown file action dialog (open or save prompt)."

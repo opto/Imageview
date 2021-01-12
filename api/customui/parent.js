@@ -294,54 +294,6 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
         return handler;
       }
 
-      // Legacy ---------------------------------------------------------------
-      locationHandlers.legacy = makeLocationHandler({
-        async injectIntoWindow(window, url, options) {
-          for (let field of ["windowUrl", "glueScript"]) {
-            if (!options.hasOwnProperty("config") ||
-              !options.config.hasOwnProperty(field)) {
-                throw new context.cloneScope.Error(`The location "LOCATION_LEGACY" requires "options.config.${field}" to be specified.`);
-                return;
-            }
-          }
-          
-          if (window.location.toString()
-              !== options.config.windowUrl) {
-            return; // incompatible window
-          }
-
-          let customData = {};
-          if (options.config.glueScript) {
-            let scope = {};
-            //Note: It appears that script loaded via extension.rootURI.resolve are not cleared by startupcacheinvalidate (???)
-            Services.scriptloader.loadSubScript(context.extension.getURL(options.config.glueScript), scope, "UTF-8");
-            customData = await scope.init(window);
-          }
-          
-          // The referenceElement could be returned by the glue script as well
-          const referenceElementName = null || customData.referenceElement || options.config.referenceElement;
-          if (!referenceElementName) {
-                throw new context.cloneScope.Error(`The location "LOCATION_LEGACY" requires "options.config.referenceElement" to be specified. Alternatively the customData object returned by the glue script must include a "referenceElement" member.`);
-                return;
-          }
-          const referenceElement = window.document.getElementById(options.config.referenceElement);
-          if (!referenceElement) {
-            throw new context.cloneScope.Error(`The specified reference element "${referenceElementName}" does not exist.`);
-            return;
-          }
-          
-          const frame = insertWebextFrame("legacy", url, referenceElement);
-          setWebextFrameSizesForVerticalBox(frame, options);
-          for (const [key, value] of Object.entries(customData)) {
-            frame.setCustomUIContextProperty(key, value);
-          }
-          
-        },
-        uninjectFromWindow(window, url) {
-          removeWebextFrame("legacy", url, window.document);
-        }
-      });
-
       // unknown_file_action --------------------------------------------------
       locationHandlers.unknown_file_action = makeLocationHandler({
         injectIntoWindow(window, url, options) {
@@ -581,12 +533,5 @@ var ex_customui = class extends ExtensionCommon.ExtensionAPI {
         }
       }
     };
-  }
-
-  onShutdown(isAppShutdown) {
-    if (isAppShutdown)
-      return;
-    // Flush all caches (needed for legacy location, which loads a glue script)
-    Services.obs.notifyObservers(null, "startupcache-invalidate");
   }
 };
