@@ -60,9 +60,11 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
     return {
       Utilities: {
         
-        async attachmentGetImages (windowId, getInfo = {}) {
-          let populate = getInfo?.populate || false;
-          
+        async attachmentGetImageData (url) {
+          return await getImageData(url);
+        },
+        
+        async attachmentGetImagesInfo (windowId) {          
           // returns array of attachment infos
           let rv = [];
           
@@ -87,9 +89,6 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
               attachmentInfo.type = contentType;
               attachmentInfo.url = url;
               attachmentInfo.filename = url.split("&filename=").pop();
-              if (populate) {
-                attachmentInfo.imageData = await getImageData(url);
-              }
               rv.push(attachmentInfo)
             }
 

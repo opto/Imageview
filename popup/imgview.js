@@ -26,7 +26,7 @@ window.addEventListener('DOMContentLoaded', async function () {
   for (let data of attachmentData) {
     var li = document.createElement('li')
     var imgNew = document.createElement('img')
-    imgNew.src =  "data:image/jpeg;base64,"+ btoa(data.imageData);
+    imgNew.src = "data:image/jpeg;base64,"+ btoa(data.imageData);
     imgNew.setAttribute("alt", data.filename);
     li.appendChild(imgNew);
     fragment.appendChild(li);
