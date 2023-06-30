@@ -1,8 +1,9 @@
 var ex_customui = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     const Cc = Components.classes;
-    const { Services } = ChromeUtils.import(
-        "resource://gre/modules/Services.jsm");
+    const Services = globalThis.Services || ChromeUtils.import(
+      "resource://gre/modules/Services.jsm"
+    ).Services;
     const { ExtensionParent } = ChromeUtils.import(
         "resource://gre/modules/ExtensionParent.jsm");
     const { setTimeout } = ChromeUtils.import(
