@@ -12,7 +12,9 @@
  /* eslint-disable object-shorthand */
 
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services || ChromeUtils.import(
+  "resource://gre/modules/Services.jsm"
+).Services;
 var {NetUtil} =   ChromeUtils.import("resource://gre/modules/NetUtil.jsm");
 
 function getImageData(src) {
